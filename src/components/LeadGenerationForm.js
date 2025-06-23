@@ -535,7 +535,6 @@ const LeadGenerationForm = () => {
     setSubmitError("");
 
     try {
-      // Submit to Formspree using environment variable
       const response = await fetch(process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT, {
         method: "POST",
         headers: {
@@ -557,9 +556,7 @@ const LeadGenerationForm = () => {
         setIsSubmitted(true);
         reset();
 
-        // Optional: Send welcome email or redirect
         setTimeout(() => {
-          // You can redirect to a thank you page or keep on same page
           console.log("Form submitted successfully");
         }, 2000);
       } else {
@@ -571,7 +568,6 @@ const LeadGenerationForm = () => {
     } finally {
       setIsLoading(false);
 
-      // Auto-hide success message after 5 seconds
       if (isSubmitted) {
         setTimeout(() => setIsSubmitted(false), 5000);
       }
@@ -592,61 +588,33 @@ const LeadGenerationForm = () => {
   return (
     <FormSection>
       <LeftContent>
-        <MainHeadline
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          Get Your Project Consultation
-        </MainHeadline>
-
-        <SubHeadline
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          Transform your business ideas into scalable digital solutions with our
-          expert guidance
-        </SubHeadline>
-
-        <BenefitsList
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
-          <BenefitTitle>What You&apos;ll Get:</BenefitTitle>
-          {benefits.map((benefit, index) => (
-            <BenefitItem
-              key={index}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-            >
-              <BenefitText>{benefit}</BenefitText>
-            </BenefitItem>
-          ))}
-        </BenefitsList>
-
-        <motion.img
-          src="/images/faq.webp"
-          alt="Sachhsoft Technology Solutions"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
+        <motion.div
           style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
             width: "100%",
-            height: "auto",
-            maxWidth: "500px",
-            borderRadius: "16px",
-            boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)",
-            position: "relative",
-            zIndex: 3,
+
+            height: "100%",
           }}
-        />
+        >
+          <motion.img
+            src="/images/faq.webp"
+            alt="Sachhsoft Technology Solutions"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+            style={{
+              width: "100%",
+              height: "auto",
+              maxWidth: "500px",
+              borderRadius: "16px",
+              boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)",
+              position: "relative",
+              zIndex: 3,
+            }}
+          />
+        </motion.div>
       </LeftContent>
 
       <RightForm>
