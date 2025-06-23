@@ -66,28 +66,29 @@ const RightSection = styled.div`
 
 const CarouselContainer = styled.div`
   position: relative;
-  width: 400px;
-  height: 500px;
+
+  width: 460px;
+  height: 575px;
   perspective: 1000px;
 
   @media (max-width: 1024px) {
-    width: 350px;
-    height: 450px;
+    width: 402px;
+    height: 518px;
   }
 
   @media (max-width: 768px) {
-    width: 320px;
-    height: 420px;
+    width: 368px;
+    height: 483px;
   }
 
   @media (max-width: 480px) {
-    width: 300px;
-    height: 400px;
+    width: 345px;
+    height: 460px;
   }
 
   @media (max-width: 375px) {
-    width: 280px;
-    height: 380px;
+    width: 322px;
+    height: 437px;
   }
 `;
 
@@ -143,38 +144,38 @@ const TextSection = styled.div`
 `;
 
 const EbookTitle = styled.h2`
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: bold;
   color: #1e3a8a;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.85rem;
   line-height: 1.3;
 
   @media (max-width: 768px) {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
   }
 
   @media (max-width: 480px) {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.35rem;
+    margin-bottom: 0.6rem;
   }
 
   @media (max-width: 375px) {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
   }
 `;
 
 const EbookSubtitle = styled.p`
   color: #6b7280;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   line-height: 1.4;
   margin: 0;
 
   @media (max-width: 768px) {
-    font-size: 0.85rem;
+    font-size: 0.95rem;
   }
 
   @media (max-width: 480px) {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
   }
 `;
 
@@ -456,13 +457,6 @@ const HeroSection = () => {
             ))}
           </SliderDots>
         </CarouselNavigation>
-
-        <ProgressBar>
-          <ProgressIndicator
-            animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.1, ease: "linear" }}
-          />
-        </ProgressBar>
       </LeftSection>
 
       <RightSection>
