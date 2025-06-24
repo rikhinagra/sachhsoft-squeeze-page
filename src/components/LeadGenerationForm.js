@@ -7,310 +7,114 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
 const FormSection = styled.section`
-  display: flex;
   min-height: 100vh;
-  background: white;
+  background: linear-gradient(135deg, #3730a3 0%, #1e3a8a 100%);
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
 
-  @media (max-width: 1024px) {
-    flex-direction: column;
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
   }
 
   @media (max-width: 768px) {
     min-height: auto;
-  }
-`;
-
-const LeftContent = styled.div`
-  flex: 1;
-  padding: 3rem;
-  color: #1e3a8a;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  z-index: 2;
-  background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-    opacity: 0.3;
-  }
-
-  @media (max-width: 1024px) {
-    padding: 2.5rem 2rem;
-  }
-
-  @media (max-width: 768px) {
-    padding: 2rem 1.5rem;
-  }
-
-  @media (max-width: 480px) {
     padding: 1.5rem 1rem;
   }
-`;
-
-const RightForm = styled.div`
-  flex: 1;
-  background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
-  padding: 3rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  position: relative;
-  z-index: 2;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-    opacity: 0.3;
-  }
-
-  @media (max-width: 1024px) {
-    padding: 2.5rem 2rem;
-  }
-
-  @media (max-width: 768px) {
-    padding: 2rem 1.5rem;
-  }
 
   @media (max-width: 480px) {
-    padding: 1.5rem 1rem;
+    padding: 1rem 0.5rem;
   }
 `;
 
-const LeadMagnetSection = styled(motion.div)`
-  background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
-  border-radius: 16px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-  text-align: center;
-  color: white;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="2" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
-    opacity: 0.3;
-  }
-
-  > * {
-    position: relative;
-    z-index: 2;
-  }
-
-  @media (max-width: 768px) {
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-    border-radius: 12px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 1.25rem;
-    border-radius: 10px;
-  }
-`;
-
-const LeadMagnetIcon = styled.div`
-  font-size: 3rem;
-  margin-bottom: 1rem;
-
-  @media (max-width: 768px) {
-    font-size: 2.5rem;
-    margin-bottom: 0.75rem;
-  }
-`;
-
-const LeadMagnetTitle = styled.h3`
-  font-size: 1.8rem;
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-  color: white;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-
-  @media (max-width: 768px) {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 1.3rem;
-  }
-`;
-
-const LeadMagnetSubtitle = styled.p`
-  font-size: 1rem;
-  margin-bottom: 1.5rem;
-  color: rgba(255, 255, 255, 0.95);
-  line-height: 1.5;
-
-  @media (max-width: 768px) {
-    font-size: 0.9rem;
-    margin-bottom: 1.2rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 0.85rem;
-    margin-bottom: 1rem;
-  }
-`;
-
-const LeadMagnetFeatures = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 0.75rem;
-    margin-bottom: 1.2rem;
-  }
-`;
-
-const FeatureItem = styled.div`
+const UnifiedContainer = styled.div`
+  max-width: 1200px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.15);
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 500;
+  gap: 0rem;
+  position: relative;
+  z-index: 2;
 
-  @media (max-width: 768px) {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.85rem;
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    gap: 2rem;
+    justify-content: center;
   }
 
-  @media (max-width: 480px) {
-    font-size: 0.8rem;
+  @media (max-width: 768px) {
+    gap: 1.5rem;
   }
 `;
 
-const MainHeadline = styled(motion.h1)`
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: white;
-  margin-bottom: 1rem;
-  line-height: 1.2;
+const PhoneSection = styled(motion.div)`
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+
+  @media (max-width: 1024px) {
+    order: 1;
+    justify-content: center;
+  }
+`;
+
+const PhoneImage = styled(motion.img)`
+  width: 500px;
+  height: auto;
+  filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.3));
   position: relative;
   z-index: 3;
 
   @media (max-width: 1024px) {
-    font-size: 2.2rem;
+    width: 400px;
   }
 
   @media (max-width: 768px) {
-    font-size: 2rem;
+    width: 350px;
   }
 
   @media (max-width: 480px) {
-    font-size: 1.8rem;
+    width: 320px;
   }
 `;
 
-const SubHeadline = styled(motion.p)`
-  font-size: 1.2rem;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 2rem;
-  line-height: 1.6;
-  position: relative;
-  z-index: 3;
-
-  @media (max-width: 768px) {
-    font-size: 1.1rem;
-    margin-bottom: 1.5rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 1rem;
-    margin-bottom: 1.2rem;
-  }
-`;
-
-const BenefitsList = styled(motion.div)`
-  margin-bottom: 2rem;
-  position: relative;
-  z-index: 3;
-`;
-
-const BenefitTitle = styled.h2`
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: white;
-  margin-bottom: 1.5rem;
-
-  @media (max-width: 768px) {
-    font-size: 1.3rem;
-    margin-bottom: 1.2rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-  }
-`;
-
-const BenefitItem = styled(motion.div)`
+const FormSectionContainer = styled.div`
+  flex: 0 0 auto;
   display: flex;
-  align-items: flex-start;
-  margin-bottom: 1rem;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
 
-  &::before {
-    content: "✓";
-    color: #10b981;
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-right: 0.75rem;
-    margin-top: 0.1rem;
-    background: rgba(16, 185, 129, 0.1);
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
+  @media (max-width: 1024px) {
+    order: 2;
+    width: 100%;
     justify-content: center;
-    font-size: 0.8rem;
   }
-`;
-
-const BenefitText = styled.p`
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.5;
-  font-size: 1rem;
 `;
 
 const FormContainer = styled(motion.div)`
   background: white;
   border-radius: 12px;
   padding: 2.5rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  margin: 0 auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   width: 100%;
   max-width: 500px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   position: relative;
-  z-index: 3;
+  z-index: 4;
 
   @media (max-width: 768px) {
     padding: 2rem;
@@ -517,6 +321,58 @@ const SuccessMessage = styled(motion.div)`
   font-weight: 500;
 `;
 
+const WireConnection = styled.div`
+  position: absolute;
+  top: 50%;
+  left: calc(450px + 1rem);
+  right: 0;
+  transform: translateY(-50%);
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 255, 255, 0.4) 100%
+  );
+  z-index: 2;
+  border-radius: 2px;
+
+  @media (max-width: 1200px) {
+    left: calc(400px + 1rem);
+  }
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: 0;
+    right: 0;
+    height: 7px;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0.1) 100%
+    );
+    border-radius: 3px;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: -1px;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+  }
+`;
+
 const LeadGenerationForm = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -578,259 +434,242 @@ const LeadGenerationForm = () => {
     router.push("/privacy-policy");
   };
 
-  const benefits = [
-    "Free consultation to discuss your specific project needs",
-    "Custom development strategies that save time and costs",
-    "Cloud solutions that scale with your business growth",
-    "Proven methodologies from 10+ years of experience",
-  ];
-
   return (
     <FormSection>
-      <LeftContent>
-        <motion.div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "100%",
-
-            height: "100%",
-          }}
+      <UnifiedContainer>
+        <PhoneSection
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
         >
-          <motion.img
+          <PhoneImage
             src="/images/faq.webp"
             alt="Sachhsoft Technology Solutions"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            style={{
-              width: "100%",
-              height: "auto",
-              maxWidth: "500px",
-              borderRadius: "16px",
-              boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)",
-              position: "relative",
-              zIndex: 3,
-            }}
+            transition={{ duration: 0.8, delay: 0.2 }}
           />
-        </motion.div>
-      </LeftContent>
+        </PhoneSection>
 
-      <RightForm>
-        <FormContainer
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-        >
-          <FormTitle>Get Your Project Planning Kit + Consultation</FormTitle>
-          <FormSubtitle>
-            Fill out the form below to download your free resources and schedule
-            your personalized consultation
-          </FormSubtitle>
+        <FormSectionContainer>
+          <FormContainer
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+          >
+            <FormTitle>Get Your Project Planning Kit + Consultation</FormTitle>
+            <FormSubtitle>
+              Fill out the form below to download your free resources and
+              schedule your personalized consultation
+            </FormSubtitle>
 
-          {submitError && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              style={{
-                background: "#ef4444",
-                color: "white",
-                padding: "1rem",
-                borderRadius: "6px",
-                marginBottom: "1rem",
-                textAlign: "center",
-              }}
-            >
-              {submitError}
-            </motion.div>
-          )}
-
-          {isSubmitted ? (
-            <SuccessMessage
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              🎉 Success! Thank you for your submission. Our team will contact
-              you within 24 hours to schedule your consultation and provide your
-              free resources.
-            </SuccessMessage>
-          ) : (
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <FormField
-                initial={{ opacity: 0, y: 20 }}
+            {submitError && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.5 }}
+                style={{
+                  background: "#ef4444",
+                  color: "white",
+                  padding: "1rem",
+                  borderRadius: "6px",
+                  marginBottom: "1rem",
+                  textAlign: "center",
+                }}
               >
-                <Label htmlFor="name">Name*</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="Enter your full name"
-                  error={errors.name}
-                  {...register("name", {
-                    required: "Name is required",
-                    minLength: {
-                      value: 2,
-                      message: "Name must be at least 2 characters",
-                    },
-                  })}
-                />
-                {errors.name && <ErrorText>{errors.name.message}</ErrorText>}
-              </FormField>
+                {submitError}
+              </motion.div>
+            )}
 
-              <FormField
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.6 }}
+            {isSubmitted ? (
+              <SuccessMessage
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.5 }}
               >
-                <Label htmlFor="email">Email*</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="Enter your work email"
-                  error={errors.email}
-                  {...register("email", {
-                    required: "Email is required",
-                    pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: "Please enter a valid email address",
-                    },
-                  })}
-                />
-                {errors.email && <ErrorText>{errors.email.message}</ErrorText>}
-              </FormField>
-
-              <FormField
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.7 }}
-              >
-                <Label htmlFor="phone">Phone number*</Label>
-                <Input
-                  id="phone"
-                  type="tel"
-                  placeholder="Enter your phone number"
-                  error={errors.phone}
-                  {...register("phone", {
-                    required: "Phone number is required",
-                    pattern: {
-                      value: /^[\+]?[\s\-\(\)]*([0-9][\s\-\(\)]*){10,}$/,
-                      message: "Please enter a valid phone number",
-                    },
-                  })}
-                />
-                {errors.phone && <ErrorText>{errors.phone.message}</ErrorText>}
-              </FormField>
-
-              <FormField
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.8 }}
-              >
-                <Label htmlFor="designation">Designation*</Label>
-                <Select
-                  id="designation"
-                  error={errors.designation}
-                  {...register("designation", {
-                    required: "Please select your designation",
-                  })}
+                🎉 Success! Thank you for your submission. Our team will contact
+                you within 24 hours to schedule your consultation and provide
+                your free resources.
+              </SuccessMessage>
+            ) : (
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <FormField
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
                 >
-                  <option value="">Select your role</option>
-                  <option value="ceo">CEO/Founder</option>
-                  <option value="cto">CTO/Technical Lead</option>
-                  <option value="manager">Manager</option>
-                  <option value="director">Director</option>
-                  <option value="developer">Developer</option>
-                  <option value="other">Other</option>
-                </Select>
-                {errors.designation && (
-                  <ErrorText>{errors.designation.message}</ErrorText>
-                )}
-              </FormField>
-
-              <FormField
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.9 }}
-              >
-                <Label htmlFor="company">Company name*</Label>
-                <Input
-                  id="company"
-                  type="text"
-                  placeholder="Enter your company name"
-                  error={errors.company}
-                  {...register("company", {
-                    required: "Company name is required",
-                    minLength: {
-                      value: 2,
-                      message: "Company name must be at least 2 characters",
-                    },
-                  })}
-                />
-                {errors.company && (
-                  <ErrorText>{errors.company.message}</ErrorText>
-                )}
-              </FormField>
-
-              <CheckboxField
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.0 }}
-              >
-                <CheckboxWrapper>
-                  <CheckboxInput
-                    id="consent"
-                    type="checkbox"
-                    {...register("consent", {
-                      required: "Please agree to our terms to continue",
+                  <Label htmlFor="name">Name*</Label>
+                  <Input
+                    id="name"
+                    type="text"
+                    placeholder="Enter your full name"
+                    error={errors.name}
+                    {...register("name", {
+                      required: "Name is required",
+                      minLength: {
+                        value: 2,
+                        message: "Name must be at least 2 characters",
+                      },
                     })}
                   />
-                  <CheckboxLabel htmlFor="consent">
-                    I agree to receive communications from Sachhsoft and
-                    understand that I can unsubscribe at any time. View our{" "}
-                    <a
-                      onClick={handlePrivacyClick}
-                      style={{ cursor: "pointer" }}
-                    >
-                      Privacy Policy
-                    </a>{" "}
-                    for more details.
-                  </CheckboxLabel>
-                </CheckboxWrapper>
-                {errors.consent && (
-                  <ErrorText>{errors.consent.message}</ErrorText>
-                )}
-              </CheckboxField>
+                  {errors.name && <ErrorText>{errors.name.message}</ErrorText>}
+                </FormField>
 
-              <SubmitButton
-                type="submit"
-                disabled={isLoading}
-                whileHover={isLoading ? {} : { scale: 1.02 }}
-                whileTap={isLoading ? {} : { scale: 0.98 }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.1 }}
-              >
-                {isLoading ? (
-                  "Submitting..."
-                ) : (
-                  <>
-                    Download Kit + Get Consultation
-                    <ArrowIcon
-                      animate={{ x: [0, 5, 0] }}
-                      transition={{ duration: 1.5, repeat: Infinity }}
-                    >
-                      →
-                    </ArrowIcon>
-                  </>
-                )}
-              </SubmitButton>
-            </form>
-          )}
-        </FormContainer>
-      </RightForm>
+                <FormField
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
+                >
+                  <Label htmlFor="email">Email*</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Enter your work email"
+                    error={errors.email}
+                    {...register("email", {
+                      required: "Email is required",
+                      pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: "Please enter a valid email address",
+                      },
+                    })}
+                  />
+                  {errors.email && (
+                    <ErrorText>{errors.email.message}</ErrorText>
+                  )}
+                </FormField>
+
+                <FormField
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.7 }}
+                >
+                  <Label htmlFor="phone">Phone number*</Label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    placeholder="Enter your phone number"
+                    error={errors.phone}
+                    {...register("phone", {
+                      required: "Phone number is required",
+                      pattern: {
+                        value: /^[\+]?[\s\-\(\)]*([0-9][\s\-\(\)]*){10,}$/,
+                        message: "Please enter a valid phone number",
+                      },
+                    })}
+                  />
+                  {errors.phone && (
+                    <ErrorText>{errors.phone.message}</ErrorText>
+                  )}
+                </FormField>
+
+                <FormField
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.8 }}
+                >
+                  <Label htmlFor="designation">Designation*</Label>
+                  <Select
+                    id="designation"
+                    error={errors.designation}
+                    {...register("designation", {
+                      required: "Please select your designation",
+                    })}
+                  >
+                    <option value="">Select your role</option>
+                    <option value="ceo">CEO/Founder</option>
+                    <option value="cto">CTO/Technical Lead</option>
+                    <option value="manager">Manager</option>
+                    <option value="director">Director</option>
+                    <option value="developer">Developer</option>
+                    <option value="other">Other</option>
+                  </Select>
+                  {errors.designation && (
+                    <ErrorText>{errors.designation.message}</ErrorText>
+                  )}
+                </FormField>
+
+                <FormField
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.9 }}
+                >
+                  <Label htmlFor="company">Company name*</Label>
+                  <Input
+                    id="company"
+                    type="text"
+                    placeholder="Enter your company name"
+                    error={errors.company}
+                    {...register("company", {
+                      required: "Company name is required",
+                      minLength: {
+                        value: 2,
+                        message: "Company name must be at least 2 characters",
+                      },
+                    })}
+                  />
+                  {errors.company && (
+                    <ErrorText>{errors.company.message}</ErrorText>
+                  )}
+                </FormField>
+
+                <CheckboxField
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 1.0 }}
+                >
+                  <CheckboxWrapper>
+                    <CheckboxInput
+                      id="consent"
+                      type="checkbox"
+                      {...register("consent", {
+                        required: "Please agree to our terms to continue",
+                      })}
+                    />
+                    <CheckboxLabel htmlFor="consent">
+                      I agree to receive communications from Sachhsoft and
+                      understand that I can unsubscribe at any time. View our{" "}
+                      <a
+                        onClick={handlePrivacyClick}
+                        style={{ cursor: "pointer" }}
+                      >
+                        Privacy Policy
+                      </a>{" "}
+                      for more details.
+                    </CheckboxLabel>
+                  </CheckboxWrapper>
+                  {errors.consent && (
+                    <ErrorText>{errors.consent.message}</ErrorText>
+                  )}
+                </CheckboxField>
+
+                <SubmitButton
+                  type="submit"
+                  disabled={isLoading}
+                  whileHover={isLoading ? {} : { scale: 1.02 }}
+                  whileTap={isLoading ? {} : { scale: 0.98 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 1.1 }}
+                >
+                  {isLoading ? (
+                    "Submitting..."
+                  ) : (
+                    <>
+                      Download Kit + Get Consultation
+                      <ArrowIcon
+                        animate={{ x: [0, 5, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity }}
+                      >
+                        →
+                      </ArrowIcon>
+                    </>
+                  )}
+                </SubmitButton>
+              </form>
+            )}
+          </FormContainer>
+        </FormSectionContainer>
+      </UnifiedContainer>
     </FormSection>
   );
 };

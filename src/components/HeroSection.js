@@ -19,6 +19,7 @@ const HeroContainer = styled.section`
     right: 0;
     bottom: 0;
     background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+
     opacity: 0.3;
   }
 
@@ -51,7 +52,7 @@ const RightSection = styled.div`
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  background: white;
+
   position: relative;
   z-index: 2;
 
@@ -220,31 +221,62 @@ const Dot = styled(motion.button)`
 const FormContainer = styled.div`
   max-width: 400px;
   width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    max-width: 350px;
+  }
 
   @media (max-width: 768px) {
     max-width: 100%;
     padding: 0 0.5rem;
   }
+
+  button {
+    width: 100%;
+    max-width: 350px;
+
+    @media (min-width: 769px) and (max-width: 1024px) {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
 `;
 
 const FormTitle = styled(motion.h1)`
-  font-size: 2.8rem;
+  font-size: 3.2rem;
   font-weight: 700;
-  color: #1e40af;
-  margin-bottom: 1rem;
-  line-height: 1.1;
+  color: white;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  text-align: center;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+
+  @media (max-width: 1024px) {
+    font-size: 2.8rem;
+  }
 
   @media (max-width: 768px) {
-    font-size: 2.2rem;
+    font-size: 2.5rem;
+    margin-bottom: 1.25rem;
+    white-space: normal;
   }
 
   @media (max-width: 480px) {
-    font-size: 2rem;
-    margin-bottom: 0.75rem;
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+    line-height: 1.15;
   }
 
   @media (max-width: 375px) {
-    font-size: 1.8rem;
+    font-size: 2rem;
+    line-height: 1.1;
   }
 `;
 
@@ -386,7 +418,10 @@ const HeroSection = () => {
   };
 
   const handleCalendlyClick = () => {
-    window.open("https://calendly.com/sachhsoft", "_blank");
+    window.open(
+      "https://calendly.com/rikhi-sachhsoft/30min?month=2025-06",
+      "_blank"
+    );
   };
 
   const renderCard = () => {
@@ -466,19 +501,10 @@ const HeroSection = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            Your Next Big Idea Starts Here
+            <span>You&apos;ve got questions?</span>
+            <br />
+            <span>We&apos;ve got answers!</span>
           </FormTitle>
-
-          <FormSubtitle
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-          >
-            Let&apos;s turn your idea into a scalable success with tailored
-            development solutions built for growth. Whether you&apos;re
-            launching a startup or scaling your platform, Sachhsoft brings the
-            strategy, speed, and skill to make it happen.
-          </FormSubtitle>
 
           <motion.button
             type="button"
@@ -501,7 +527,7 @@ const HeroSection = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            Talk to Our Experts
+            Book your call today
             <ArrowIcon
               animate={{ x: [0, 5, 0] }}
               transition={{ duration: 1.5, repeat: Infinity }}
