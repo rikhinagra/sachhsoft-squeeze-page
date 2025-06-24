@@ -245,7 +245,10 @@ const CTAAndFooter = () => {
   const router = useRouter();
 
   const handleCTAClick = () => {
-    window.open("https://calendly.com/sachhsoft", "_blank");
+    window.open(
+      "https://calendly.com/rikhi-sachhsoft/30min?month=2025-06",
+      "_blank"
+    );
   };
 
   const handlePrivacyClick = () => {
