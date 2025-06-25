@@ -67,17 +67,7 @@ const CTASubtitle = styled(motion.p)`
 const CTAButtonContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem;
-`;
-
-const CTAText = styled(motion.span)`
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #1e3a8a;
-
-  @media (max-width: 768px) {
-    font-size: 1rem;
-  }
+  justify-content: center;
 `;
 
 const CTAButton = styled(motion.a)`
@@ -280,14 +270,6 @@ const CTAAndFooter = () => {
           </CTAContent>
 
           <CTAButtonContainer>
-            <CTAText
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              Hit the connect button
-            </CTAText>
             <CTAButton
               onClick={handleCTAClick}
               initial={{ opacity: 0, scale: 0.5 }}
