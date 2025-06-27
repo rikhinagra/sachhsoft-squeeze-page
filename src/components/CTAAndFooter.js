@@ -10,6 +10,7 @@ import {
   IconBrandX,
 } from "@tabler/icons-react";
 import { useRouter } from "next/navigation";
+import { trackButtonClick } from "../utils/gtm";
 
 const CTASection = styled.section`
   background: linear-gradient(135deg, #30cff2 0%, #00bcd4 100%);
@@ -235,6 +236,14 @@ const CTAAndFooter = () => {
   const router = useRouter();
 
   const handleCTAClick = () => {
+    trackButtonClick("cta_calendly_button", {
+      button_text: "Ready to get started? Talk to us today",
+      section: "cta",
+      action: "calendly_redirect",
+      button_type: "arrow_circle",
+      cta_position: "bottom_page",
+    });
+
     window.open(
       "https://calendly.com/rikhi-sachhsoft/30min?month=2025-06",
       "_blank"
@@ -242,12 +251,27 @@ const CTAAndFooter = () => {
   };
 
   const handlePrivacyClick = () => {
+    trackButtonClick("privacy_policy_link", {
+      link_text: "Privacy Policy",
+      section: "footer",
+      action: "internal_navigation",
+      destination: "/privacy-policy",
+    });
+
     router.push("/privacy-policy");
+  };
+
+  const handleSocialClick = (platform, url) => {
+    trackButtonClick("social_media_click", {
+      platform: platform,
+      section: "footer",
+      action: "external_link",
+      destination: url,
+    });
   };
 
   return (
     <>
-      {/* CTA Section */}
       <CTASection>
         <CTAContainer>
           <CTAContent>
@@ -287,7 +311,6 @@ const CTAAndFooter = () => {
         </CTAContainer>
       </CTASection>
 
-      {/* Footer */}
       <Footer>
         <FooterContainer>
           <FooterLeft>
@@ -309,6 +332,7 @@ const CTAAndFooter = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="facebook"
+              onClick={() => handleSocialClick('facebook', '#')}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
@@ -324,6 +348,7 @@ const CTAAndFooter = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="instagram"
+              onClick={() => handleSocialClick('instagram', '#')}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
@@ -338,6 +363,12 @@ const CTAAndFooter = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="linkedin"
+              onClick={() =>
+                handleSocialClick(
+                  "linkedin",
+                  "https://www.linkedin.com/company/92896939/"
+                )
+              }
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
@@ -352,6 +383,7 @@ const CTAAndFooter = () => {
               target="_blank"
               rel="noopener noreferrer"
               className="twitter"
+              onClick={() => handleSocialClick('twitter', '#')}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { trackCustomEvent } from "../utils/gtm";
 
 const LogosSection = styled.section`
   background: #f8f9fa;
@@ -119,6 +120,7 @@ const LogoCard = styled(motion.div)`
   min-height: 100px;
   transition: all 0.3s ease;
   border: 1px solid #e5e7eb;
+  cursor: pointer;
 
   &:hover {
     transform: translateY(-5px);
@@ -243,6 +245,11 @@ const StatsContainer = styled(motion.div)`
 
 const StatItem = styled(motion.div)`
   padding: 1rem;
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
 const StatNumber = styled.div`
@@ -286,6 +293,12 @@ const ClientLogos = () => {
 
   useEffect(() => {
     setIsVisible(true);
+
+    trackCustomEvent("client_logos_section_view", {
+      section: "client_logos",
+      page: "home",
+      action: "section_viewed",
+    });
   }, []);
 
   const actualClients = [
@@ -330,6 +343,25 @@ const ClientLogos = () => {
     { name: "Microsoft Gold", color: "#ffd700" },
     { name: "AWS Advanced", color: "#ff9900" },
   ];
+
+  const handleLogoClick = (logoName, logoType, index) => {
+    trackCustomEvent("logo_click", {
+      logo_name: logoName,
+      logo_type: logoType,
+      logo_position: index + 1,
+      section: "client_logos",
+      action: "logo_interaction",
+    });
+  };
+
+  const handleStatClick = (statName, statValue) => {
+    trackCustomEvent("stat_interaction", {
+      stat_name: statName,
+      stat_value: statValue,
+      section: "client_logos",
+      action: "stat_clicked",
+    });
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -417,6 +449,9 @@ const ClientLogos = () => {
                       scale: 1.05,
                       transition: { duration: 0.2 },
                     }}
+                    onClick={() =>
+                      handleLogoClick(client.name, "client", index)
+                    }
                   >
                     <Image
                       src={client.logoPath}
@@ -464,6 +499,9 @@ const ClientLogos = () => {
                       scale: 1.05,
                       transition: { duration: 0.2 },
                     }}
+                    onClick={() =>
+                      handleLogoClick(partner.name, "tech_partner", index)
+                    }
                   >
                     <LogoText style={{ color: partner.color }}>
                       {partner.name}
@@ -498,6 +536,9 @@ const ClientLogos = () => {
                       scale: 1.05,
                       transition: { duration: 0.2 },
                     }}
+                    onClick={() =>
+                      handleLogoClick(cert.name, "certification", index)
+                    }
                   >
                     <LogoText style={{ color: cert.color }}>
                       {cert.name}
@@ -517,6 +558,7 @@ const ClientLogos = () => {
             <StatItem
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
+              onClick={() => handleStatClick("years_experience", "10+")}
             >
               <motion.div
                 initial={{ scale: 0 }}
@@ -531,6 +573,7 @@ const ClientLogos = () => {
             <StatItem
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
+              onClick={() => handleStatClick("revenue_generated", "$100M+")}
             >
               <motion.div
                 initial={{ scale: 0 }}
@@ -545,6 +588,7 @@ const ClientLogos = () => {
             <StatItem
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
+              onClick={() => handleStatClick("global_clients", "50+")}
             >
               <motion.div
                 initial={{ scale: 0 }}
@@ -559,6 +603,7 @@ const ClientLogos = () => {
             <StatItem
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
+              onClick={() => handleStatClick("client_satisfaction", "99%")}
             >
               <motion.div
                 initial={{ scale: 0 }}
