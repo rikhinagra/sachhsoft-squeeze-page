@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { trackFormSubmission, trackButtonClick } from "../utils/gtm";
 
 const FormSection = styled.section`
   min-height: 100vh;
@@ -384,13 +385,27 @@ const LeadGenerationForm = () => {
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm();
+
+  const watchedFields = watch();
 
   const onSubmit = async (data) => {
     setIsLoading(true);
     setSubmitError("");
 
     try {
+      trackFormSubmission("lead_generation_form_attempt", {
+        form_type: "consultation_request",
+        user_designation: data.designation,
+        user_company: data.company,
+        company_size: data.company?.length > 20 ? "large" : "small",
+        lead_source: "website",
+        form_section: "lead_generation",
+        has_phone: !!data.phone,
+        consent_given: data.consent,
+      });
+
       const response = await fetch(process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT, {
         method: "POST",
         headers: {
@@ -412,6 +427,19 @@ const LeadGenerationForm = () => {
         setIsSubmitted(true);
         reset();
 
+        trackFormSubmission("lead_generation_form_success", {
+          form_type: "consultation_request",
+          user_designation: data.designation,
+          user_company: data.company,
+          conversion_type: "lead_generated",
+          lead_quality:
+            data.designation === "ceo" || data.designation === "cto"
+              ? "high"
+              : "medium",
+          form_completion_time: Date.now(),
+          lead_source: "organic_website",
+        });
+
         setTimeout(() => {
           console.log("Form submitted successfully");
         }, 2000);
@@ -421,6 +449,14 @@ const LeadGenerationForm = () => {
     } catch (error) {
       console.error("Form submission error:", error);
       setSubmitError("Something went wrong. Please try again.");
+
+      trackFormSubmission("lead_generation_form_error", {
+        error_type: "submission_failed",
+        error_message: error.message,
+        user_designation: data.designation,
+        form_data_present: !!data.email,
+        retry_attempt: true,
+      });
     } finally {
       setIsLoading(false);
 
@@ -431,7 +467,34 @@ const LeadGenerationForm = () => {
   };
 
   const handlePrivacyClick = () => {
+    trackButtonClick("privacy_policy_form_link", {
+      link_text: "Privacy Policy",
+      section: "lead_form",
+      action: "internal_navigation",
+      destination: "/privacy-policy",
+      form_context: "consent_checkbox",
+    });
+
     router.push("/privacy-policy");
+  };
+
+  const handleFieldFocus = (fieldName) => {
+    trackFormSubmission("form_field_focus", {
+      field_name: fieldName,
+      form_type: "lead_generation",
+      interaction_type: "focus",
+    });
+  };
+
+  const handleFieldBlur = (fieldName, value) => {
+    if (value && value.length > 0) {
+      trackFormSubmission("form_field_completed", {
+        field_name: fieldName,
+        form_type: "lead_generation",
+        interaction_type: "completed",
+        field_length: value.length,
+      });
+    }
   };
 
   return (
@@ -503,6 +566,8 @@ const LeadGenerationForm = () => {
                     type="text"
                     placeholder="Enter your full name"
                     error={errors.name}
+                    onFocus={() => handleFieldFocus("name")}
+                    onBlur={(e) => handleFieldBlur("name", e.target.value)}
                     {...register("name", {
                       required: "Name is required",
                       minLength: {
@@ -525,6 +590,8 @@ const LeadGenerationForm = () => {
                     type="email"
                     placeholder="Enter your work email"
                     error={errors.email}
+                    onFocus={() => handleFieldFocus("email")}
+                    onBlur={(e) => handleFieldBlur("email", e.target.value)}
                     {...register("email", {
                       required: "Email is required",
                       pattern: {
@@ -549,6 +616,8 @@ const LeadGenerationForm = () => {
                     type="tel"
                     placeholder="Enter your phone number"
                     error={errors.phone}
+                    onFocus={() => handleFieldFocus("phone")}
+                    onBlur={(e) => handleFieldBlur("phone", e.target.value)}
                     {...register("phone", {
                       required: "Phone number is required",
                       pattern: {
@@ -571,6 +640,10 @@ const LeadGenerationForm = () => {
                   <Select
                     id="designation"
                     error={errors.designation}
+                    onFocus={() => handleFieldFocus("designation")}
+                    onBlur={(e) =>
+                      handleFieldBlur("designation", e.target.value)
+                    }
                     {...register("designation", {
                       required: "Please select your designation",
                     })}
@@ -599,6 +672,8 @@ const LeadGenerationForm = () => {
                     type="text"
                     placeholder="Enter your company name"
                     error={errors.company}
+                    onFocus={() => handleFieldFocus("company")}
+                    onBlur={(e) => handleFieldBlur("company", e.target.value)}
                     {...register("company", {
                       required: "Company name is required",
                       minLength: {
@@ -650,6 +725,17 @@ const LeadGenerationForm = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 1.1 }}
+                  onClick={() => {
+                    if (!isLoading) {
+                      trackButtonClick("form_submit_button", {
+                        button_text: "Download Kit + Get Consultation",
+                        section: "lead_form",
+                        action: "form_submission",
+                        form_type: "consultation_request",
+                        has_errors: Object.keys(errors).length > 0,
+                      });
+                    }
+                  }}
                 >
                   {isLoading ? (
                     "Submitting..."

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
+import { trackButtonClick } from "../utils/gtm";
 
 const HeroContainer = styled.section`
   display: flex;
@@ -109,7 +110,7 @@ const EbookCard = styled(motion.div)`
 
 const ImageSection = styled.div`
   flex: 0 0 60%;
-  background-image: ${(props) => `url(${props.bgImage})`};
+  background-image: ${(props) => `url(${props.$bgImage})`};
   background-size: cover;
   background-position: center;
   position: relative;
@@ -203,7 +204,7 @@ const Dot = styled(motion.button)`
   border-radius: 50%;
   border: none;
   background: ${(props) =>
-    props.active ? "#f59e0b" : "rgba(255, 255, 255, 0.5)"};
+    props.$active ? "#f59e0b" : "rgba(255, 255, 255, 0.5)"};
   cursor: pointer;
   transition: all 0.3s ease;
 
@@ -411,13 +412,37 @@ const HeroSection = () => {
   const goToSlide = (index) => {
     setCurrentSlide(index);
     setProgress(0);
+
+    trackButtonClick("carousel_dot_click", {
+      slide_index: index,
+      service_title: services[index].title,
+      section: "hero_carousel",
+      action: "manual_navigation",
+    });
   };
 
   const togglePlayPause = () => {
     setIsPlaying(!isPlaying);
+
+    trackButtonClick("carousel_toggle", {
+      action: isPlaying ? "pause" : "play",
+      current_slide: currentSlide,
+      service_title: services[currentSlide].title,
+      section: "hero_carousel",
+    });
   };
 
   const handleCalendlyClick = () => {
+    trackButtonClick("hero_calendly_button", {
+      button_text: "Book your call today",
+      section: "hero",
+      action: "calendly_redirect",
+      current_service: services[currentSlide].title,
+      service_id: services[currentSlide].id,
+      slide_position: currentSlide + 1,
+      total_slides: services.length,
+    });
+
     window.open(
       "https://calendly.com/rikhi-sachhsoft/30min?month=2025-06",
       "_blank"
@@ -426,44 +451,50 @@ const HeroSection = () => {
 
   const renderCard = () => {
     const currentService = services[currentSlide];
-    const cardProps = {
-      key: currentSlide,
-      bgImage: currentService.bgImage,
-      initial: {
-        opacity: 0,
-        rotateY: 90,
-        scale: 0.8,
-        z: -100,
-      },
-      animate: {
-        opacity: 1,
-        rotateY: 0,
-        scale: 1,
-        z: 0,
-      },
-      exit: {
-        opacity: 0,
-        rotateY: -90,
-        scale: 0.8,
-        z: -100,
-      },
-      transition: {
-        duration: 0.8,
-        ease: "easeInOut",
-        opacity: { duration: 0.6 },
-        scale: { duration: 0.8 },
-      },
-      whileHover: {
-        scale: 1.05,
-        rotateY: 5,
-        transition: { duration: 0.3 },
-      },
-      onClick: () => setIsPlaying(!isPlaying),
-    };
 
     return (
-      <EbookCard {...cardProps}>
-        <ImageSection bgImage={currentService.bgImage} />
+      <EbookCard
+        key={currentSlide}
+        initial={{
+          opacity: 0,
+          rotateY: 90,
+          scale: 0.8,
+          z: -100,
+        }}
+        animate={{
+          opacity: 1,
+          rotateY: 0,
+          scale: 1,
+          z: 0,
+        }}
+        exit={{
+          opacity: 0,
+          rotateY: -90,
+          scale: 0.8,
+          z: -100,
+        }}
+        transition={{
+          duration: 0.8,
+          ease: "easeInOut",
+          opacity: { duration: 0.6 },
+          scale: { duration: 0.8 },
+        }}
+        whileHover={{
+          scale: 1.05,
+          rotateY: 5,
+          transition: { duration: 0.3 },
+        }}
+        onClick={() => {
+          trackButtonClick("service_card_click", {
+            service_title: currentService.title,
+            service_id: currentService.id,
+            action: "toggle_play_pause",
+            section: "hero_carousel",
+          });
+          setIsPlaying(!isPlaying);
+        }}
+      >
+        <ImageSection $bgImage={currentService.bgImage} />
         <TextSection>
           <EbookTitle>{currentService.title}</EbookTitle>
           <EbookSubtitle>{currentService.subtitle}</EbookSubtitle>
@@ -484,7 +515,7 @@ const HeroSection = () => {
             {services.map((_, index) => (
               <Dot
                 key={index}
-                active={index === currentSlide}
+                $active={index === currentSlide}
                 onClick={() => goToSlide(index)}
                 whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 0.8 }}
