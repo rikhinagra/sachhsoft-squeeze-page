@@ -406,7 +406,7 @@ const LeadGenerationForm = () => {
         consent_given: data.consent,
       });
 
-      const response = await fetch(process.env.NEXT_PUBLIC_FORMSPREE_ENDPOINT, {
+      const response = await fetch("/api/send-email", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -441,10 +441,11 @@ const LeadGenerationForm = () => {
         });
 
         setTimeout(() => {
-          console.log("Form submitted successfully");
+          console.log("Form submitted successfully via Nodemailer");
         }, 2000);
       } else {
-        throw new Error("Form submission failed");
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Form submission failed");
       }
     } catch (error) {
       console.error("Form submission error:", error);
