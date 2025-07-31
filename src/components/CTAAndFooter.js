@@ -244,10 +244,7 @@ const CTAAndFooter = () => {
       cta_position: "bottom_page",
     });
 
-    window.open(
-      "https://calendly.com/rikhi-sachhsoft/30min?month=2025-06",
-      "_blank"
-    );
+    window.open("https://tidycal.com/sachhsoft", "_blank");
   };
 
   const handlePrivacyClick = () => {
